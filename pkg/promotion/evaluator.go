@@ -144,6 +144,7 @@ func (p *StepEvaluator) Vars(ctx context.Context, promoCtx Context, step Step) (
 			ctx, p.client, promoCtx.Project, promoCtx.FreightRequests, promoCtx.Freight.References(),
 		),
 		exprfn.UtilityOperations(),
+		exprfn.PromotionOperations(promoCtx.UIBaseURL, promoCtx.Project, promoCtx.Stage, promoCtx.TargetFreightRef.Name, promoCtx.Promotion),
 	)
 
 	// Evaluate the global variables defined in the Promotion itself, these
@@ -223,6 +224,7 @@ func (p *StepEvaluator) ShouldSkip(ctx context.Context, promoCtx Context, step S
 			),
 			exprfn.StatusOperations(step.Alias, promoCtx.StepExecutionMetadata),
 			exprfn.UtilityOperations(),
+			exprfn.PromotionOperations(promoCtx.UIBaseURL, promoCtx.Project, promoCtx.Stage, promoCtx.TargetFreightRef.Name, promoCtx.Promotion),
 		)...,
 	)
 	if err != nil {
@@ -274,6 +276,7 @@ func (p *StepEvaluator) Config(ctx context.Context, promoCtx Context, step Step)
 			exprfn.DataOperations(ctx, p.client, p.cache, promoCtx.Project),
 			exprfn.StatusOperations(step.Alias, promoCtx.StepExecutionMetadata),
 			exprfn.UtilityOperations(),
+			exprfn.PromotionOperations(promoCtx.UIBaseURL, promoCtx.Project, promoCtx.Stage, promoCtx.TargetFreightRef.Name, promoCtx.Promotion),
 		)...,
 	)
 	if err != nil {
